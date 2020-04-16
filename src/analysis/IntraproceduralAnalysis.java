@@ -53,7 +53,8 @@ public class IntraproceduralAnalysis extends ForwardFlowAnalysis<Unit, Set<FlowA
 			Value leftOp = as.getLeftOp();
 
 			if (rightOp instanceof JSpecialInvokeExpr) {
-				taintsOut.add(new FlowAbstraction(d, (Local) leftOp));
+				if(((JSpecialInvokeExpr) rightOp).getMethod().getName().toString().equals("getSecret"))
+					taintsOut.add(new FlowAbstraction(d, (Local) leftOp));
 			} else if (rightOp instanceof JimpleLocal) {
 				for (FlowAbstraction abs : taintsIn) {
 					if (rightOp == abs.getLocal()) {
